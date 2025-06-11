@@ -1,7 +1,7 @@
 # GPT Prompt 생성
 
 
-> **주제: 한국 보험 약관의 해석 및 비판적 분석** <br/><br/>
+> **주제: 한국 보험 약관의 해석 및 비판적 분석(반려묘 보험 중심)** <br/><br/>
 Topic: Interpretation and critical analysis of Korean insurance terms
 
 # Step 0: RAG 문서 준비 및 벡터 스토어 구축
