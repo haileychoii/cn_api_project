@@ -20,12 +20,16 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;haileychoii&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "history": [
+    {
+      "assignee": "haileychoii"
+    }
+  ],
+  "lastFilter": {
+    "assignee": "haileychoii"
   }
-}</component>
+}]]></component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/haileychoii/cn_api_project.git&quot;,
@@ -46,7 +50,8 @@
     "Python.append_json_to_chroma..executor": "Run",
     "Python.injest_json_chunks.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -81,6 +86,7 @@
       <workItem from="1749596621489" duration="20784000" />
       <workItem from="1749643643753" duration="323000" />
       <workItem from="1749643982840" duration="16714000" />
+      <workItem from="1749732310348" duration="307000" />
     </task>
     <task id="LOCAL-00001" summary="almost initial commit...">
       <option name="closed" value="true" />
@@ -122,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749705595457</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="almost initial commit...">
+      <option name="closed" value="true" />
+      <created>1749732545406</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749732545406</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
