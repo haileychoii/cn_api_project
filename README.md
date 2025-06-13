@@ -139,3 +139,96 @@ Langchain의 ConversationalRetrievalChain 또는 MultiPromptChain을 활용하�
 ## Chatbot Screen with Streamlit 2
 
 ![Image](https://github.com/user-attachments/assets/60808071-df09-48f9-bc3a-0de30a3dafe6)
+
+
+### 1. 🧠 프로젝트 개요
+
+| 항목 | 내용 |
+| --- | --- |
+| **프로젝트명** | 보험 약관 분석 기반 대화형 챗봇 |
+| **목표** | 한국 보험 약관(반려묘 중심)의 문제점을 RAG + GPT 기반 분석, 개선안 도출, 평가 및 사용자 친화 챗봇 구현 |
+| **사용자 대상** | 보험 소비자, 설계사, 약관 분석자 등 |
+| **핵심 기술** | LangChain, GPT-4o, Streamlit, VectorDB, Tree of Thought, RAG, 평가 자동화 |
+
+---
+
+### 2. 🔁 전체 프로세스 흐름 (Step 1~6)
+
+| 단계 | 설명 | 입력 | 출력 |
+| --- | --- | --- | --- |
+| Step 1 | 약관 요약 | 원문 PDF / TXT | 요약 JSON |
+| Step 2 | 문제점 도출 | 요약 JSON | 문제점 JSON |
+| Step 3 | 문제 평가 | 문제점 JSON | 평가 JSON |
+| Step 4 | 개선안 생성 | 문제 + 외부 검색 | 개선안 JSON |
+| Step 5 | 개선안 평가 | 개선안 + RAG | 평가 결과 JSON |
+| Step 6 | 챗봇 통합 | 위 JSON + QA | 사용자 챗봇 인터페이스 |
+
+---
+
+### 3. 📁 구조 설명과 역할 정리 가이드
+
+```bash
+코드 복사
+📁 cn_api_project/
+├── data/
+│   └── 보험약관/
+│       └── summary/
+├── step2_results/
+├── step3_results/
+├── merged_step4_results/
+├── step5_results/
+├── app/
+│   ├── app.py                  # streamlit 앱 실행 파일
+│   ├── chains/
+│   │   ├── step2_chain.py
+│   │   ├── step3_chain.py
+│   │   ├── step4_chain.py
+│   │   ├── step5_chain.py
+│   │   └── router_chain.py
+│   ├── components/
+│   │   └── cat_easter_egg.py   # 귀여운 고양이 이스터에그
+│   ├── utils/
+│   │   └── prompt_templates.py
+│   └── vectorstore/
+│       └── chroma_db/
+
+```
+
+**🔹 `data/`**
+
+- **역할**: 정적 데이터 원본 저장소 (약관 등)
+- **세부 정리**:
+    - `보험약관/summary/`: 각 보험 상품의 요약 텍스트 파일
+
+> ✅ 여기에는 사람이 직접 만든 자료나 외부에서 수집한 원본 데이터만 위치
+> 
+
+---
+
+**🔹 `step2_results/`, `step3_results/`, `merged_step4_results/`, `step5_results/`**
+
+- **역할**: 단계별 처리 결과 저장
+- **정리 기준**:
+    - JSON 또는 텍스트 파일이 **"자동 생성" 또는 "스크립트 출력물"** 일 때 여기에 저장
+    - 정리 시에는 파일 이름에 `step{번호}_{보험명}.json` 형식 유지
+
+> ✅ 여긴 모델 결과물이 저장되는 중간/최종 결과 디렉토리
+> 
+
+---
+
+**🔹 `app/`**
+
+- 전체 앱 실행 코드
+
+**📄 `app.py`**
+
+- Streamlit 실행 진입점
+- 탭/버튼 등을 배치하고 `chains/`, `components/` 등을 호출
+
+---
+
+**🔹 `app/chains/`**
+
+- **역할**: LangChain 기반 체인 구성 정의
+- **파일별 정리 기준**:
