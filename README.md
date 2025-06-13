@@ -194,7 +194,7 @@ Langchain의 ConversationalRetrievalChain 또는 MultiPromptChain을 활용하�
 
 ```
 
-**🔹 `data/`**
+#### **🔹 `data/`**
 
 - **역할**: 정적 데이터 원본 저장소 (약관 등)
 - **세부 정리**:
@@ -205,7 +205,7 @@ Langchain의 ConversationalRetrievalChain 또는 MultiPromptChain을 활용하�
 
 ---
 
-**🔹 `step2_results/`, `step3_results/`, `merged_step4_results/`, `step5_results/`**
+#### **🔹 `step2_results/`, `step3_results/`, `merged_step4_results/`, `step5_results/`**
 
 - **역할**: 단계별 처리 결과 저장
 - **정리 기준**:
@@ -217,7 +217,7 @@ Langchain의 ConversationalRetrievalChain 또는 MultiPromptChain을 활용하�
 
 ---
 
-**🔹 `app/`**
+#### **🔹 `app/`**
 
 - 전체 앱 실행 코드
 
@@ -228,7 +228,7 @@ Langchain의 ConversationalRetrievalChain 또는 MultiPromptChain을 활용하�
 
 ---
 
-**🔹 `app/chains/`**
+#### **🔹 `app/chains/`**
 
 - **역할**: LangChain 기반 체인 구성 정의
 - **파일별 정리 기준**:
