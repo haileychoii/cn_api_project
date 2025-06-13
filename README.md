@@ -5,6 +5,7 @@
 <details>
 <summary> # Topic: Interpretation and critical analysis of Korean insurance terms</summary>
 <p>
+-----
  
 # Step 0: RAG 문서 준비 및 벡터 스토어 구축
 
