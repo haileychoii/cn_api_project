@@ -3,9 +3,12 @@
 
 > **주제: 한국 보험 약관의 해석 및 비판적 분석-반려묘 보험을 중심으로** <br/><br/>
 <details>
-<summary> # Topic: Interpretation and critical analysis of Korean insurance terms</summary>
+<summary> 
+ 
+ ## Topic: Interpretation and critical analysis of Korean insurance terms
+</summary>
 <p>
------
+
  
 # Step 0: RAG 문서 준비 및 벡터 스토어 구축
 
