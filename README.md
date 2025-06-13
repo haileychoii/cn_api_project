@@ -3,8 +3,9 @@
 
 > **주제: 한국 보험 약관의 해석 및 비판적 분석-반려묘 보험을 중심으로** <br/><br/>
 <details>
-<summary>Topic: Interpretation and critical analysis of Korean insurance terms</summary>
+<summary> # Topic: Interpretation and critical analysis of Korean insurance terms</summary>
 <p>
+ 
 # Step 0: RAG 문서 준비 및 벡터 스토어 구축
 
 ### 목표: 잠재적 문제점 발상 및 개선 방안 모색에 도움이 될 만한 다양한 외부 정보 문서들을 수집하고, Langchain이 활용할 수 있는 벡터 스토어 형태로 변환
