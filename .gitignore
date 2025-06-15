@@ -1,0 +1,5 @@
+
+# API Key Files
+.env
+app/env
+.idea/
