@@ -4,15 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b276088e-66c4-40ba-8f5f-a1cbd905edd3" name="Changes" comment="again">
-      <change afterPath="$PROJECT_DIR$/app/utils/text_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="b276088e-66c4-40ba-8f5f-a1cbd905edd3" name="Changes" comment="chatbot 부분과 연관된 파일 수정">
       <change beforePath="$PROJECT_DIR$/app/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/chains/router_chain_.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/chains/router_chain_.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/rag_qa.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/rag_qa.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/prompt_templates.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/prompt_templates.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/utils/rag_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/app/utils/rag_utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +72,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1749976590143</updated>
-      <workItem from="1749976591349" duration="10542000" />
+      <workItem from="1749976591349" duration="13156000" />
     </task>
     <task id="LOCAL-00001" summary="again">
       <option name="closed" value="true" />
@@ -97,7 +90,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749983087017</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="chatbot 부분과 연관된 파일 수정">
+      <option name="closed" value="true" />
+      <created>1749989822654</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1749989822654</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -116,6 +117,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="again" />
-    <option name="LAST_COMMIT_MESSAGE" value="again" />
+    <MESSAGE value="chatbot 부분과 연관된 파일 수정" />
+    <option name="LAST_COMMIT_MESSAGE" value="chatbot 부분과 연관된 파일 수정" />
   </component>
 </project>
