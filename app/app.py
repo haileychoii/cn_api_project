@@ -1,29 +1,24 @@
 import streamlit as st
+import colorlover as cl
+# app.py
+import re
+import random
+
+import os
+from dotenv import load_dotenv
+
+
+# ✅ Streamlit 설정 가장 먼저
 st.set_page_config(
     page_title='반려묘보험 분석 챗봇 대시보드', page_icon= "😺",
     layout='wide',
     initial_sidebar_state='expanded'
 )
+# ✅ .env 가장 먼저 로드
+load_dotenv(dotenv_path=".env")  # 정확한 경로 지정
+api_key = os.getenv("OPENAI_API_KEY")
 
-import os
-import json
-import colorlover as cl
-import base64
-import re
 from chains.router_chain_ import load_conversational_chain
-from utils.json_utils import search_step_json_results
-from langchain.vectorstores import Chroma as LegacyChroma
-# ✅ RAG 기반 관련 Step4~5 JSON 결과 찾기
-
-from langchain.schema.vectorstore import VectorStore
-from utils.rag_utils import query_step_json_chroma_db
-
-from langchain.retrievers import MultiVectorRetriever
-from langchain.retrievers import EnsembleRetriever
-from langchain_openai import OpenAIEmbeddings
-from langchain_community.vectorstores import Chroma
-from langchain.chains import ConversationalRetrievalChain
-from langchain_community.embeddings import OpenAIEmbeddings
 
 # ---------- Streamlit 설정 ----------
 
@@ -37,27 +32,41 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------- 테마 모드 정의 및 적용 ----------
+import random
+import streamlit as st
+
+# 🎨 파스텔 색상 팔레트 중 일부 (버튼용으로 다양화)
+pastel_button_colors = ["#CCD3CA", "#B5C0D0"]
+
 theme_modes = {
     "Pastel 모드": {
-        "primary": "#B39DDB",         # 파스텔 퍼플
-        "accent": "#F48FB1",          # 파스텔 핑크
-        "secondary": "#81D4FA",       # 파스텔 블루
-        "background": "#E6F9F2",      # 연한 민트 배경
-        "text": "#222222",            # 어두운 글자색
-        "font": "'Noto Sans KR', sans-serif"
+        "primary": random.choice(pastel_button_colors),  # 버튼마다 랜덤하게 다양화
+        "accent": "#F48FB1",         # 파스텔 핑크
+        "secondary": "#81D4FA",      # 파스텔 블루
+        "background": "#EED3D9",     #💡 더 연한 파스텔 핑크
+        "text": "#222222",           # 어두운 글자색
+        "font": "'AppleGothic Neo', sans-serif"
     },
     "Dark 모드": {
-        "primary": cl.scales['8']['qual']['Dark2'][1],
+        # cl 미정의 오류 방지 - 기본 색상 대체
+        "primary": "#BB86FC",
         "background": "#1E1E1E",
         "text": "#EEEEEE",
-        "font": "'Noto Sans KR', sans-serif"
+        "font": "'AppleGothic Neo', sans-serif"
     }
 }
 
+# 🎛️ 테마 선택
 mode = st.sidebar.selectbox("🎨 테마 모드 선택", list(theme_modes.keys()))
 colors = theme_modes[mode]
 
+# ✅ 테마 적용 함수
 def set_custom_theme(primary, background, text, font, accent=None, secondary=None):
+    sidebar_bg = "#F5E8DD"
+
+def set_custom_theme(primary, background, text, font, accent=None, secondary=None):
+    sidebar_bg = "#F5E8DD"  # 💡 연한 민트 (진한 핑크로 바꾸려면 "#F8BBD0")
+
     st.markdown(
         f"""
         <style>
@@ -66,24 +75,51 @@ def set_custom_theme(primary, background, text, font, accent=None, secondary=Non
             color: {text} !important;
             font-family: {font};
         }}
+
         h1, h2, h3, h4, h5, h6 {{
             color: {text} !important;
         }}
+
+        /* ✅ 사이드바 전체 배경 색상 */
+        section[data-testid="stSidebar"] > div:first-child {{
+            background-color: {sidebar_bg} !important;
+        }}
+
+        /* ✅ 사이드바 내부 항목 간격 + 배경 제거 */
+        section[data-testid="stSidebar"] .stRadio,
+        section[data-testid="stSidebar"] .stSelectbox,
+        section[data-testid="stSidebar"] label {{
+            background-color: transparent !important;
+            margin-bottom: 1.2rem !important;
+        }}
+
+        /* ✅ hover 시 bold 효과 */
+        section[data-testid="stSidebar"] label:hover {{
+            font-weight: bold !important;
+            cursor: pointer;
+        }}
+
+        /* ✅ 버튼 스타일 개선: 다양한 파스텔 배경색, 투명 글씨 배경 */
         .stButton > button {{
-            background-color: {primary} !important;
-            color: white !important;
+            background-image: linear-gradient(135deg, #FFDEE9 0%, #B5FFFC 100%);
+            color: {text} !important;
             border-radius: 8px;
             padding: 0.5em 1em;
             border: none;
+            font-weight: 500;
         }}
-        .stSelectbox > div, .stRadio > div {{
-            color: {text} !important;
+
+        .stButton > button:hover {{
+            filter: brightness(1.1);
+            font-weight: 600;
         }}
         </style>
         """,
         unsafe_allow_html=True
     )
 
+
+# 🎨 최종 적용
 set_custom_theme(
     colors["primary"],
     colors["background"],
@@ -92,6 +128,7 @@ set_custom_theme(
     accent=colors.get("accent"),
     secondary=colors.get("secondary")
 )
+
 # ---------- 사이드바 메뉴 ----------
 st.sidebar.title("📚 챗봇 메뉴")
 menu = st.sidebar.radio(
