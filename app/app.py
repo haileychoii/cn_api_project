@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 # app.py 최상단
 from utils.rag_utils import query_step_json_chroma_db
 from chains.router_chain_ import load_router_chain
+from utils.json_utils import search_step_json_results
 
 # ✅ Streamlit 설정 가장 먼저
 st.set_page_config(
@@ -61,9 +62,8 @@ theme_modes = {
 mode = st.sidebar.selectbox("🎨 테마 모드 선택", list(theme_modes.keys()))
 colors = theme_modes[mode]
 
-# ✅ 테마 적용 함수
 def set_custom_theme(primary, background, text, font, accent=None, secondary=None):
-    sidebar_bg = "#F5E8DD"  # 💡 진한 핑크로 바꾸려면 "#F8BBD0"
+    sidebar_bg = "#F5E8DD"
 
     st.markdown(
         f"""
@@ -78,33 +78,45 @@ def set_custom_theme(primary, background, text, font, accent=None, secondary=Non
             color: {text} !important;
         }}
 
-        /* ✅ 사이드바 배경 */
-        section[data-testid="stSidebar"], 
-        section[data-testid="stSidebar"] > div:first-child {{
+        section[data-testid="stSidebar"] {{
             background-color: {sidebar_bg} !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 100vh !important;
+            padding: 0 !important;
         }}
 
-        /* ✅ 사이드바 내부 간격 */
-        section[data-testid="stSidebar"] .stRadio,
-        section[data-testid="stSidebar"] .stSelectbox,
-        section[data-testid="stSidebar"] label {{
+        section[data-testid="stSidebar"] .block-container {{
+            background-color: {sidebar_bg} !important;
+            padding: 1rem 1rem !important;
+        }}
+
+        div.stButton > button {{
+            background-color: #CCD3CA !important;
+            color: #333333 !important;
+            border: none !important;
+            border-radius: 8px !important;
+            box-shadow: none !important;
+            font-weight: 600 !important;
+            padding: 0.75rem 2rem !important;
+            min-width: 160px !important;
+            min-height: 50px !important;
+            display: inline-block !important;
+        }}
+
+        div.stButton > button span {{
             background-color: transparent !important;
-            margin-bottom: 1.0rem !important;
         }}
 
-        /* ✅ hover 효과 */
-        section[data-testid="stSidebar"] label:hover {{
-            font-weight: bold !important;
-            cursor: pointer;
+        div.stButton > button:hover {{
+            background-color: #B5BBB3 !important;
         }}
-
-        
         </style>
         """,
         unsafe_allow_html=True
     )
 
-# ✅ 최종 테마 적용
+
 set_custom_theme(
     colors["primary"],
     colors["background"],
@@ -163,27 +175,27 @@ with st.expander("ℹ️ 챗봇 안내"):
 if menu == "🤖 챗봇":
     st.title("🐾 보험 약관 분석 챗봇 - 반려묘 보험 중심")
 
-    # ✅ 버튼 스타일 정의
-    button_style = """
-    <style>
-    div.stButton > button {
-        height: 4.5em;
-        white-space: normal;
-        background-color: #f0f2f6;
-        color: #222222;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 0.9em;
-        padding: 0.5em;
-        text-align: left;
-        line-height: 1.3em;
-    }
-    div.stButton > button:hover {
-        background-color: #e0e2e6;
-    }
-    </style>
-    """
-    st.markdown(button_style, unsafe_allow_html=True)
+    # # ✅ 버튼 스타일 정의
+    # button_style = """
+    # <style>
+    # div.stButton > button {
+    #     height: 4.5em;
+    #     white-space: normal;
+    #     background-color: #f0f2f6;
+    #     color: #222222;
+    #     border: 1px solid #ccc;
+    #     border-radius: 6px;
+    #     font-size: 0.9em;
+    #     padding: 0.5em;
+    #     text-align: left;
+    #     line-height: 1.3em;
+    # }
+    # div.stButton > button:hover {
+    #     background-color: #e0e2e6;
+    # }
+    # </style>
+    # """
+    # st.markdown(button_style, unsafe_allow_html=True)
 
     # ✅ 화면 2열로 분리: 왼쪽은 소개 / 오른쪽은 입력
     col1, col2 = st.columns([1.3, 1.2])  # 비율 조절 가능
@@ -307,7 +319,7 @@ if menu == "🤖 챗봇":
 
 
 # ---------- FAQ ----------
-elif menu == "FAQ":
+elif menu == "📙 FAQ":
     st.title("📙 자주 묻는 질문")
     st.markdown("""
     **Q. 법률 자문을 제공하나요?**
