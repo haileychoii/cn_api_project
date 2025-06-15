@@ -1,59 +1,53 @@
-
-
 def query_step_json_chroma_db(query: str, top_k: int = 3):
     import os
     import json
     from pathlib import Path
-    import re
     from langchain.embeddings import OpenAIEmbeddings
     from langchain_community.vectorstores import Chroma
+    from langchain.docstore.document import Document
 
-
-
-    # ✅ 경로 직접 정의
-    STEP_JSON_DB_DIR = "../vectorstore/step_json_chroma_db"
+    BASE_DIR = Path(__file__).parent.parent
+    STEP_JSON_DB_DIR = BASE_DIR / "app" / "vectorstore" / "step_json_chroma_db"
     STEP_JSON_RESULT_PATHS = [
-        "../../step3_results",  # Step3 평가 결과
-        "../../step4_results",  # Step4 개선안 제안 결과
-        "../../step5_results"  # Step5 개선안 평가 결과
+        BASE_DIR / "step3_results",
+        BASE_DIR / "merged_step4_results",
+        BASE_DIR / "step5_results",
     ]
 
-    # ✅ 벡터스토어 로드
     db = Chroma(
-        persist_directory=STEP_JSON_DB_DIR,
+        persist_directory=str(STEP_JSON_DB_DIR),
         embedding_function=OpenAIEmbeddings()
     )
 
-    # ✅ 의미 기반 검색 수행
     docs = db.similarity_search(query, k=top_k)
 
     results = []
 
     for doc in docs:
-        filename = Path(doc.metadata['source']).name
+        source_path = doc.metadata.get('source', '')
+        filename = Path(source_path).name
 
-        # ✅ 여러 경로 중 실제 json 파일이 존재하는 곳 탐색
         found = False
-        for path in STEP_JSON_RESULT_PATHS:
-            file_path = os.path.join(path, filename)
-            if os.path.exists(file_path):
+        json_data = None
+        for folder_path in STEP_JSON_RESULT_PATHS:
+            file_path = folder_path / filename
+            if file_path.exists():
                 with open(file_path, "r", encoding="utf-8") as f:
                     json_data = json.load(f)
-                    results.append({
-                        "filename": filename,
-                        "data": json_data,
-                        "page_content": doc.page_content  # → 원문도 같이 전달
-                    })
                 found = True
-                break  # 파일 찾았으면 더는 안찾아도 됨
+                break
 
-        if not found:
-            # 파일을 찾지 못한 경우도 표시할 수 있음 (선택)
-            results.append({
-                "filename": filename,
-                "data": None,
-                "page_content": doc.page_content,
-                "error": "원본 JSON 파일을 찾을 수 없습니다."
-            })
+        # ⛳ 핵심 개선안, 평가 요약 등 추출
+        from utils.text_utils import extract_core_summary_from_text
+        core_summary = extract_core_summary_from_text(doc.page_content)
+
+        results.append({
+            "filename": filename,
+            "data": json_data,
+            "page_content": doc.page_content,
+            "core_summary": core_summary,
+            "source": source_path,
+            "error": None if found else "원본 JSON 파일을 찾을 수 없습니다."
+        })
 
     return results

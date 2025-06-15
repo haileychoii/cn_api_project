@@ -6,7 +6,9 @@ import random
 
 import os
 from dotenv import load_dotenv
-
+# app.py 최상단
+from utils.rag_utils import query_step_json_chroma_db
+from chains.router_chain_ import load_router_chain
 
 # ✅ Streamlit 설정 가장 먼저
 st.set_page_config(
@@ -121,11 +123,24 @@ menu = st.sidebar.radio(
     label_visibility="collapsed"
 )
 
+# ---------- QA 모드 선택 ----------
+st.sidebar.markdown("### 🤖 QA 모드 설정")
+qa_mode = st.sidebar.radio(
+    "답변할 문서 우선순위 선택:",
+    options=["default", "json_only", "original_only"],
+    format_func=lambda x: {
+        "default": "전체 (약관 + 개선안)",
+        "json_only": "개선안 중심",
+        "original_only": "약관 중심"
+    }[x],
+    index=0
+)
+
 # ---------- 세션 상태 초기화 ----------
-if "chat_history" not in st.session_state:
+if "qa_chain" not in st.session_state or st.session_state.get("qa_mode") != qa_mode:
+    st.session_state.qa_chain = load_router_chain(mode=qa_mode)
     st.session_state.chat_history = []
-if "qa_chain" not in st.session_state:
-    st.session_state.qa_chain = load_conversational_chain()
+    st.session_state.qa_mode = qa_mode
 
 # ---------- 챗봇 안내 ----------
 with st.expander("ℹ️ 챗봇 안내"):
@@ -143,8 +158,8 @@ with st.expander("ℹ️ 챗봇 안내"):
     - '삼성화재 고양이 보험에서 개선안 제안은?'  
     """)
 
-# ---------- 메뉴 처리 ----------
-# ---------- 메뉴 처리 ----------
+
+# ---------- 챗봇 본문 ----------
 if menu == "🤖 챗봇":
     st.title("🐾 보험 약관 분석 챗봇 - 반려묘 보험 중심")
 
