@@ -99,13 +99,16 @@ def set_custom_theme(primary, background, text, font, accent=None, secondary=Non
             box-shadow: none !important;
             font-weight: 600 !important;
             padding: 0.75rem 2rem !important;
-            min-width: 160px !important;
-            min-height: 50px !important;
+            width: 40% !important;
+            height: 55px !important;
+            overflow-wrap: break-word;
+            text-align: center;
             display: inline-block !important;
         }}
 
         div.stButton > button span {{
-            background-color: transparent !important;
+            background-color: #CCD3CA !important;
+            color: inherit !important;
         }}
 
         div.stButton > button:hover {{
