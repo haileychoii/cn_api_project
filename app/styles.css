@@ -1,0 +1,91 @@
+/* 🌈 공통 스타일 */
+body, .main, .block-container {
+    font-family: 'Pretendard', 'SUIT', 'AppleGothic Neo', sans-serif !important;
+    transition: all 0.3s ease;
+}
+
+/* 🎨 Pastel 모드 */
+.pastel body, .pastel .main, .pastel .block-container {
+    background-color: #EED3D9 !important;
+    color: #222222 !important;
+}
+
+.pastel h1, .pastel h2, .pastel h3, .pastel h4, .pastel h5, .pastel h6,
+.pastel p, .pastel span {
+    color: #222222 !important;
+}
+
+.pastel section[data-testid="stSidebar"] {
+    background-color: #F5E8DD !important;
+    color: #222222 !important;
+}
+
+.pastel section[data-testid="stSidebar"] div[role="radiogroup"] label span {
+    color: #222222 !important;
+}
+
+.pastel section[data-testid="stSidebar"] div[role="radiogroup"] label[data-selected="true"] {
+    background-color: #B5BBB3 !important;
+    border-radius: 8px;
+    color: #222222 !important;
+}
+
+.pastel div.stButton > button {
+    background-color: #CCD3CA !important;
+    color: #222222 !important;
+}
+
+.pastel div.stButton > button:hover {
+    background-color: #B5BBB3 !important;
+}
+
+.pastel .stSelectbox > div > div {
+    background-color: #EED3D9 !important;
+    color: #222222 !important;
+}
+.pastel .stSelectbox > div > div:hover {
+    background-color: #B5BBB3 !important;
+}
+
+/* 🌙 Dark 모드 */
+.dark body, .dark .main, .dark .block-container {
+    background-color: #210635 !important;
+    color: #f5d5e0 !important;
+}
+
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6,
+.dark p, .dark span {
+    color: #f5d5e0 !important;
+}
+
+.dark section[data-testid="stSidebar"] {
+    background-color: #7b337e !important;
+    color: #f5d5e0 !important;
+}
+
+.dark section[data-testid="stSidebar"] div[role="radiogroup"] label span {
+    color: #f5d5e0 !important;
+}
+
+.dark section[data-testid="stSidebar"] div[role="radiogroup"] label[data-selected="true"] {
+    background-color: #420D4B !important;
+    border-radius: 8px;
+    color: #f5d5e0 !important;
+}
+
+.dark div.stButton > button {
+    background-color: #6667AB !important;
+    color: #f5d5e0 !important;
+}
+
+.dark div.stButton > button:hover {
+    background-color: #420D4B !important;
+}
+
+.dark .stSelectbox > div > div {
+    background-color: #210635 !important;
+    color: #f5d5e0 !important;
+}
+.dark .stSelectbox > div > div:hover {
+    background-color: #420D4B !important;
+}

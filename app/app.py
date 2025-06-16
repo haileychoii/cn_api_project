@@ -37,24 +37,43 @@ st.markdown("""
 # ---------- 테마 모드 정의 및 적용 ----------
 import random
 import streamlit as st
+import pathlib
 
+# styles.css 경로 설정
+css_path = pathlib.Path("app/styles.css")  # 필요 시 경로 조정
 
+# 🌈 테마 클래스 설정 (Pastel 모드 or Dark 모드)
+mode = st.sidebar.selectbox("테마 선택", ["Pastel", "Dark"])
+theme_class = "pastel" if mode == "Pastel" else "dark"
 
+# CSS 파일 불러오기 + 클래스 적용
+def load_theme(css_path, theme_class):
+    with open(css_path) as f:
+        css = f.read()
+        st.markdown(
+            f"<div class='{theme_class}'>"
+            f"<style>{css}</style>",
+            unsafe_allow_html=True
+        )
+
+load_theme(css_path, theme_class)
 # 🎨 테마 정의
 theme_modes = {
     "Pastel 모드": {
         "primary": "#CCD3CA",
-        "accent": "#F48FB1",         # 파스텔 핑크
-        "secondary": "#81D4FA",      # 파스텔 블루
-        "background": "#EED3D9",     # 연한 파스텔 배경
-        "text": "#222222",           # 어두운 글자색
-        "font": "'Pretendard', 'SUIT', 'AppleGothic Neo'"
+        "background": "#EED3D9",
+        "hover": "#B5BBB3",
+        "text": "#222222",
+        "font": "'Pretendard', 'SUIT', 'AppleGothic Neo'",
+        "sidebar_bg": "#F5E8DD"
     },
     "Dark 모드": {
-        "primary": "#BB86FC",
-        "background": "#1E1E1E",
-        "text": "#EEEEEE",
-        "font": "'AppleGothic Neo', sans-serif"
+        "primary": "#8E7AB5",
+        "background": "#1C1C2E",
+        "hover": "#5941A9",
+        "text": "#E0D4FD",
+        "font": "'AppleGothic Neo', sans-serif",
+        "sidebar_bg": "#2C2C3F"
     }
 }
 
@@ -62,13 +81,20 @@ theme_modes = {
 mode = st.sidebar.selectbox("🎨 테마 모드 선택", list(theme_modes.keys()))
 colors = theme_modes[mode]
 
-def set_custom_theme(primary, background, text, font, accent=None, secondary=None):
-    sidebar_bg = "#F5E8DD"
+# 테마 클래스명 매핑
+theme_class_map = {
+    "Pastel 모드": "pastel",
+    "Dark 모드": "dark"
+}
+theme_class = theme_class_map[mode]
 
+
+# 🌈 테마 적용 함수
+def set_custom_theme(primary, background, text, font, sidebar_bg, hover):
     st.markdown(
         f"""
         <style>
-        html, body, [class*="st-"] {{
+        html, body, .main, .block-container {{
             background-color: {background} !important;
             color: {text} !important;
             font-family: {font};
@@ -78,41 +104,74 @@ def set_custom_theme(primary, background, text, font, accent=None, secondary=Non
             color: {text} !important;
         }}
 
-        section[data-testid="stSidebar"] {{
-            background-color: {sidebar_bg} !important;
-            border: none !important;
-            box-shadow: none !important;
-            height: 100vh !important;
-            padding: 0 !important;
+        header[data-testid="stHeader"] {{
+            background-color: {background} !important;
+            color: {text} !important;
         }}
 
-        section[data-testid="stSidebar"] .block-container {{
+        section[data-testid="stSidebar"] {{
             background-color: {sidebar_bg} !important;
             padding: 1rem 1rem !important;
         }}
+        
+        /* ✅ 사이드바 라디오 버튼 항목 텍스트 색상 */
+        section[data-testid="stSidebar"] div[role="radiogroup"] label span {{
+            color: {text} !important;
+        }}  
 
-        div.stButton > button {{
-            background-color: #CCD3CA !important;
-            color: #333333 !important;
-            border: none !important;
-            border-radius: 8px !important;
-            box-shadow: none !important;
-            font-weight: 600 !important;
-            padding: 0.75rem 2rem !important;
-            width: 40% !important;
-            height: 55px !important;
-            overflow-wrap: break-word;
-            text-align: center;
-            display: inline-block !important;
+        /* ✅ 선택된 항목 하이라이트 효과 (hover도 가능) */
+        section[data-testid="stSidebar"] div[role="radiogroup"] label[data-selected="true"] {{
+            background-color: {hover} !important;
+            border-radius: 8px;
         }}
 
-        div.stButton > button span {{
-            background-color: #CCD3CA !important;
-            color: inherit !important;
+        /* ✅ 마우스 hover 시 텍스트 색상 유지 */
+        section[data-testid="stSidebar"] div[role="radiogroup"] label:hover span {{
+            color: {text} !important;
+        }}
+
+
+        div.stButton > button {{
+            background-color: {primary} !important;
+            color: {text} !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-weight: 600 !important;
+            padding: 0.75rem 2rem !important;
+            width: 80% !important;
+            height: 55px !important;
+            text-align: center;
         }}
 
         div.stButton > button:hover {{
-            background-color: #B5BBB3 !important;
+            background-color: {hover} !important;
+        }}
+
+        /* ✅ 입력창 */
+        input[type="text"], textarea, .stTextInput input {{
+            color: {text} !important;
+            background-color: #ffffff10 !important;
+            
+        }}
+
+        /* ✅ selectbox */
+        div[data-baseweb="select"] > div {{
+            background-color: #ffffff10 !important;
+            color: {text} !important;
+            border: 1px solid {primary} !important;
+        }}
+
+        div[data-baseweb="select"] * {{
+            color: {text} !important;
+        }}
+
+        /* ✅ 라디오 텍스트 */
+        div[role="radiogroup"] label span {{
+            color: {text} !important;
+        }}
+
+        div[role="radiogroup"] label[data-selected="true"] {{
+            background-color: {hover} !important;
         }}
         </style>
         """,
@@ -120,20 +179,23 @@ def set_custom_theme(primary, background, text, font, accent=None, secondary=Non
     )
 
 
+# 🎨 테마 적용
 set_custom_theme(
-    colors["primary"],
-    colors["background"],
-    colors["text"],
-    colors["font"],
-    accent=colors.get("accent"),
-    secondary=colors.get("secondary")
+    primary=colors["primary"],
+    background=colors["background"],
+    text=colors["text"],
+    font=colors["font"],
+    sidebar_bg=colors["sidebar_bg"],
+    hover=colors["hover"]
 )
+
+
 
 
 # ---------- 사이드바 메뉴 ----------
 st.sidebar.title("📚 챗봇 메뉴")
 menu = st.sidebar.radio(
-    "",
+    "메뉴 선택",
     ["🏠 홈", "📘 프로젝트 소개", "📗 사용 가이드", "📙 FAQ", "📄 보험 요약 보기", "🤖 챗봇", "📊 개선안 평가", "📁 파일 업로드"],
     label_visibility="collapsed"
 )
@@ -177,28 +239,6 @@ with st.expander("ℹ️ 챗봇 안내"):
 # ---------- 챗봇 본문 ----------
 if menu == "🤖 챗봇":
     st.title("🐾 보험 약관 분석 챗봇 - 반려묘 보험 중심")
-
-    # # ✅ 버튼 스타일 정의
-    # button_style = """
-    # <style>
-    # div.stButton > button {
-    #     height: 4.5em;
-    #     white-space: normal;
-    #     background-color: #f0f2f6;
-    #     color: #222222;
-    #     border: 1px solid #ccc;
-    #     border-radius: 6px;
-    #     font-size: 0.9em;
-    #     padding: 0.5em;
-    #     text-align: left;
-    #     line-height: 1.3em;
-    # }
-    # div.stButton > button:hover {
-    #     background-color: #e0e2e6;
-    # }
-    # </style>
-    # """
-    # st.markdown(button_style, unsafe_allow_html=True)
 
     # ✅ 화면 2열로 분리: 왼쪽은 소개 / 오른쪽은 입력
     col1, col2 = st.columns([1.3, 1.2])  # 비율 조절 가능
