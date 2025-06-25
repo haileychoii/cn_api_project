@@ -1,6 +1,6 @@
 # GPT Prompt 생성
 
-
+https://drive.google.com/drive/folders/1sAfXBE6nBeT0vBFB3DHEXVdb_3ApoDaB
 > **주제: 한국 보험 약관의 해석 및 비판적 분석-반려묘 보험을 중심으로** <br/><br/>
 <details>
 <summary> 
