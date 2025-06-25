@@ -138,6 +138,8 @@ Langchain의 ConversationalRetrievalChain 또는 MultiPromptChain을 활용하�
 
 ![Image](https://github.com/user-attachments/assets/f7c87bc4-e935-46a0-a790-b7ca949d07c6)
 
+
+![Image](https://drive.google.com/drive/folders/1sAfXBE6nBeT0vBFB3DHEXVdb_3ApoDaB)
 ## Chatbot Screen with Streamlit 2
 
 ![Image](https://github.com/user-attachments/assets/60808071-df09-48f9-bc3a-0de30a3dafe6)
